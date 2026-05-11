@@ -1,0 +1,23 @@
+{
+  "skill_name": "superpowers-workflow",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我的用户登录页面有个 bug，输入正确密码后偶尔会显示'密码错误'，大概 10 次里有 1 次出现。帮我修一下。项目在 src/pages/Login.tsx，用的是 React + TypeScript。",
+      "expected_output": "应判定为 B 类（低复杂度、需求清晰、修 bug），路由到自动执行路径。Phase 0 分析应输出: 类型 B，复杂度低，建议 Ralph 3 轮迭代 + verification 终审。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "我想做一个在线协作白板应用，类似 Figjam 但更轻量。用户可以实时画图、加便签、评论。需要支持多人同时编辑。技术栈还没想好，你帮我看看怎么设计比较合适。先做需求分析和架构设计。",
+      "expected_output": "应判定为 A 类（高复杂度、需求模糊、新系统设计），路由到分阶段把控路径。Phase 0 分析应输出: 类型 A，复杂度高，建议 brainstorming → writing-plans → subagent-driven-dev 流程，有人工确认节点。",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "给现有的电商后台加一个'批量导出订单'功能，支持按时间范围筛选，导出为 CSV 和 Excel 两种格式。前端用 React + shadcn/ui，后端是 Node.js。功能需求基本明确，但具体 UI 交互和性能优化需要你来设计。",
+      "expected_output": "应判定为 C 类（中高复杂度、需求中等明确、大功能迭代），路由到混合模式。Phase 0 分析应输出: 类型 C，复杂度中-高，建议 brainstorming设计 → 确认 → writing-plans拆任务 → Ralph自动执行。应建议注入 ui-ux-pro-max（前端 UI）。",
+      "files": []
+    }
+  ]
+}
