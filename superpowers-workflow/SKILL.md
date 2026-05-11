@@ -26,7 +26,7 @@ compatibility: 需要 superpowers 插件、ralph-loop 插件、caveman 插件、
 2. 评估复杂度（低/中/高）
 3. 选择对应的执行路径
 4. 列出所有人工决策点
-5. 列出建议注入的领域 Skill（参考 Skill 映射表）
+5. 从 system reminder 动态发现领域 Skill（参考下方 Skill 发现规则），列出推荐注入清单
 
 ### 类型判定表
 
@@ -38,17 +38,27 @@ compatibility: 需要 superpowers 插件、ralph-loop 插件、caveman 插件、
 | 典型示例 | 新系统设计、架构重构 | 修 bug、小功能、重构 | 大功能迭代、多模块开发 |
 | 预计 token | 高（但 caveman 压缩） | 低 | 中-高 |
 
-### Skill 映射表
+### Skill 发现规则
 
-| 项目场景 | 注入的领域 Skill |
-|---------|-----------------|
-| 前端/Web UI | `ui-ux-pro-max` |
-| 移动端 UI | `ui-ux-pro-max` (React Native/Flutter/SwiftUI) |
-| 后端 API 开发 | `claude-api`（如果调 Anthropic SDK） |
-| 全栈项目 | `ui-ux-pro-max` + 后端对应 skill |
-| 数据处理/脚本 | 询问用户有无对应领域 skill |
-| Web QA/浏览器测试 | `gstack` — headless 浏览器截图、交互验证、响应式测试 |
-| 通用/不确定 | 仅用 superpowers 核心，不注入领域 skill |
+不维护固定映射表。Phase 0 运行时从 system reminder 动态发现可用 skill。
+
+**发现步骤：**
+
+1. 从 system reminder 提取所有可用 skill 的 `name` + `description`
+2. 排除流程/基础设施 skill：`brainstorming`、`debugging`、`writing-plans`、`executing-plans`、`using-git-worktrees`、`subagent-driven-development`、`requesting-code-review`、`verification-before-completion`、`finishing-a-development-branch`、`caveman*`、`skill-creator`、`superpowers-workflow`、`superpowers:*`、`caveman:*`、`codex:*`、`claude-hud:*`、`example-skills:*`
+3. 将项目需求关键词（技术栈、项目类型、领域）与剩余 skill 的 `description` 做语义匹配
+4. 输出匹配结果，等待用户确认
+
+**匹配原则：**
+
+| 优先级 | 条件 | 处理 |
+|--------|------|------|
+| 高 | description 含项目技术栈关键词 | 推荐注入 |
+| 中 | description 含项目类型关键词 | 建议注入 |
+| 低 | 弱相关但不确定 | 列出供用户判断 |
+| 无 | 无匹配 skill | 仅用 superpowers 核心 |
+
+**排除规则补遗：** `gstack` 保留为领域 skill（浏览器 QA），不排除。`document-skills:*` 保留（文档生成类 skill 可能是项目需求）。
 
 ### Phase 0 输出格式
 
@@ -61,7 +71,7 @@ compatibility: 需要 superpowers 插件、ralph-loop 插件、caveman 插件、
 - **复杂度**: [低/中/高]
 - **执行路径**: [简述选定路径的阶段]
 - **人工决策点**: [列出所有确认节点]
-- **建议注入 Skill**: [列出 skill 名称 + 注入阶段]
+- **发现的领域 Skill**: [动态匹配结果：skill 名称 + 匹配理由 + 建议注入阶段]
 - **Ralph 参数**: [max-iterations 建议值 + completion-promise 建议]
 
 确认后进入 Phase 1。

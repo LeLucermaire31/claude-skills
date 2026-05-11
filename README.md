@@ -6,6 +6,8 @@ Claude Code Skills 集合。
 
 全流程项目工作流编排 Skill。从需求分析到代码交付，自动判断项目类型并选择最优路径（分阶段把控 / 自动执行 / 混合模式），协调 Superpowers、Ralph Loop、Caveman 和领域 Skill 协作。
 
+**动态 Skill 发现**：Phase 0 运行时从 system reminder 自动扫描已安装的领域 Skill，按项目技术栈/类型关键词做语义匹配，无需手动维护映射表。新装 Skill 下次启动自动生效。
+
 ### 安装
 
 ```bash
